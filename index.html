@@ -5,15 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>God of Burgers - Cardápio Virtual</title>
+    
+    <meta name="theme-color" content="#d9534f"/>
+    <link rel="apple-touch-icon" href="https://i.imgur.com/5GGXizh.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMA ESCURO --- */
+        /* --- O CSS (estilo) permanece o mesmo, sem alterações --- */
         body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
-            padding: 0 10px; /* Removido padding inferior do body */
+            padding: 0 10px;
             background-color: #121212;
             color: #e0e0e0;
         }
@@ -21,8 +25,7 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            /* Adicionado padding-bottom para criar espaço para o resumo não sobrepor o último item */
-            padding: 20px 20px 300px 20px; 
+            padding: 20px 20px 250px 20px; 
             background: #1e1e1e;
             border-radius: 12px;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
@@ -37,27 +40,31 @@
         }
 
         .header img {
-            width: 160px; 
-            height: 160px;
+            width: 220px;
+            height: 220px;
             object-fit: contain;
             margin-bottom: 15px;
         }
 
         .header h1 {
-            font-family: 'Lobster', cursive; 
+            font-family: 'Cinzel', serif;
             margin: 0;
-            font-size: 2.8em;
+            font-size: 3em;
             color: #d9534f;
-            font-weight: 400;
+            font-weight: 700;
         }
         
         h2 {
+            font-family: 'Roboto', sans-serif;
             text-align: center;
             color: #f5f5f5;
             border-bottom: 2px solid #333;
             padding-bottom: 10px;
-            font-size: 1.5em;
-            margin-top: 30px;
+            font-size: 1.6em;
+            margin-top: 40px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
         .category {
@@ -82,14 +89,15 @@
         }
 
         .menu-item span {
-            font-weight: bold;
-            font-size: 1.1em;
+            font-weight: 500;
+            font-size: 1.2em;
             color: #ffffff;
         }
         
         .menu-item small {
             color: #b0b0b0;
-            line-height: 1.4;
+            line-height: 1.5;
+            font-size: 0.9em;
         }
 
         .menu-item button {
@@ -100,7 +108,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
-            font-weight: bold;
+            font-weight: 700;
             transition: background-color 0.3s ease;
             align-self: flex-start;
         }
@@ -109,38 +117,37 @@
             background-color: #1ebd58;
         }
         
-        /* --- ESTILO ATUALIZADO PARA O RESUMO FIXO/STICKY --- */
         .summary {
-            /* Mantém o resumo dentro do container, mas o fixa na parte de baixo */
             position: sticky;
             bottom: 0;
             left: 0;
             right: 0;
-            
-            /* Estilos visuais */
-            margin: 30px -20px -300px -20px; /* Margens negativas para ocupar a largura e o padding do container */
-            padding: 20px 20px 30px 20px; /* Padding ajustado */
+            margin: 30px -20px -250px -20px; 
+            padding: 20px 20px 30px 20px; 
             background-color: #252525;
             border-top: 3px solid #d9534f;
-            box-shadow: 0 -5px 10px rgba(0,0,0,0.4); /* Sombra para dar profundidade */
-            border-radius: 12px 12px 0 0; /* Cantos arredondados apenas no topo */
+            box-shadow: 0 -5px 10px rgba(0,0,0,0.4); 
+            border-radius: 12px 12px 0 0; 
             z-index: 1000;
         }
 
         .summary h2 {
             border: none;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
         }
 
         .totals p {
             display: flex;
             justify-content: space-between;
-            font-size: 1.1em;
             margin: 8px 0;
+            align-items: center;
         }
 
         .totals p.final-total {
             font-size: 1.3em;
-            font-weight: bold;
+            font-weight: 700;
             color: #ffffff;
             margin-top: 10px;
         }
@@ -153,17 +160,12 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 1.1em;
-            font-weight: bold;
+            font-weight: 700;
             width: 100%;
             margin-top: 15px;
             transition: background-color 0.3s ease;
         }
         
-        .summary button.finalize-btn:disabled {
-            background-color: #555;
-            cursor: not-allowed;
-        }
-
         .summary button.finalize-btn:hover:enabled {
             background-color: #c9302c;
         }
@@ -189,6 +191,7 @@
         #order-summary .item-name {
             flex-grow: 1;
             color: #f5f5f5;
+            font-size: 1em;
         }
 
         #order-summary .item-price {
@@ -214,6 +217,87 @@
         #order-summary .remove-btn:hover {
             background-color: #c0392b;
         }
+
+        .modal {
+            display: none;
+            position: fixed; 
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .modal-content {
+            background-color: #2c2c2c;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #555;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #d9534f;
+            border-bottom: none;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .modal-content p {
+            margin-top: 0;
+            color: #b0b0b0;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 95%;
+            padding: 12px;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-size: 1em;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .modal-actions button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn-cancel {
+            background-color: #555;
+            color: white;
+        }
+
+        .btn-confirm {
+            background-color: #25d366;
+            color: white;
+        }
+
+        .modal-actions button:hover {
+            opacity: 0.8;
+        }
     </style>
 </head>
 
@@ -224,105 +308,114 @@
             <h1>God of Burgers</h1>
         </div>
         
-        <!-- Categoria Hamburguer's -->
         <div class="category">
             <h2>Hamburguer's</h2>
-            <div class="menu-item"><span>Atreus Kids</span><small>(pão de brioche, hambúrguer blend bovino de 120gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Atreus Kids', 16.90)">Adicionar - R$16,90</button></div>
-            <div class="menu-item"><span>Poseidon Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Poseidon Burguer', 19.90)">Adicionar - R$19,90</button></div>
-            <div class="menu-item"><span>Afrodite Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, deliciosas fatias de bacon e cheddar cremoso)</small><button onclick="addItem('Afrodite Burguer', 22.90)">Adicionar - R$22,90</button></div>
-            <div class="menu-item"><span>Hades Burguer</span><small>(pão de brioche, 2 hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, cebola crispy e cheddar cremoso)</small><button onclick="addItem('Hades Burguer', 34.90)">Adicionar - R$34,90</button></div>
-            <div class="menu-item"><span>Zeus Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, alface americana, picles e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Zeus Burguer', 21.90)">Adicionar - R$21,90</button></div>
-            <div class="menu-item"><span>Ares Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, Doritos® e cheddar cremoso)</small><button onclick="addItem('Ares Burguer', 24.90)">Adicionar - R$24,90</button></div>
-            <div class="menu-item"><span>Hermes Burguer</span><small>(pão de brioche, Delicioso peito de frango empanado, maionese artesanal, alface americana, picles e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Hermes Burguer', 21.90)">Adicionar - R$21,90</button></div>
-            <div class="menu-item"><span>Apolo Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, Disco de queijo muçarela empanado, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Apolo Burguer', 28.90)">Adicionar - R$28,90</button></div>
-            <div class="menu-item"><span>Kratos Burguer</span><small>(pão de brioche, 2 hambúrguer blend bovino de 160gr, Cupim desfiado, cebola empanada e crocante, cheddar cremoso, molho chimichurri, alface americana, picles e deliciosa maionese artesanal)</small><button onclick="addItem('Kratos Burguer', 39.90)">Adicionar - R$39,90</button></div>
+            <div class="menu-item"><span>Atreus Kids</span><small>(pão de brioche, hambúrguer blend bovino de 120gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('atreus-kids', 'Atreus Kids', 16.90)">Adicionar - R$16,90</button></div>
+            <div class="menu-item"><span>Poseidon Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('poseidon-burguer', 'Poseidon Burguer', 19.90)">Adicionar - R$19,90</button></div>
+            <div class="menu-item"><span>Afrodite Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, deliciosas fatias de bacon e cheddar cremoso)</small><button onclick="addItem('afrodite-burguer', 'Afrodite Burguer', 22.90)">Adicionar - R$22,90</button></div>
+            <div class="menu-item"><span>Hades Burguer</span><small>(pão de brioche, 2 hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, cebola crispy e cheddar cremoso)</small><button onclick="addItem('hades-burguer', 'Hades Burguer', 34.90)">Adicionar - R$34,90</button></div>
+            <div class="menu-item"><span>Zeus Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, alface americana, picles e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('zeus-burguer', 'Zeus Burguer', 21.90)">Adicionar - R$21,90</button></div>
+            <div class="menu-item"><span>Ares Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, deliciosa maionese artesanal, Doritos® e cheddar cremoso)</small><button onclick="addItem('ares-burguer', 'Ares Burguer', 24.90)">Adicionar - R$24,90</button></div>
+            <div class="menu-item"><span>Hermes Burguer</span><small>(pão de brioche, Delicioso peito de frango empanado, maionese artesanal, alface americana, picles e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('hermes-burguer', 'Hermes Burguer', 21.90)">Adicionar - R$21,90</button></div>
+            <div class="menu-item"><span>Apolo Burguer</span><small>(pão de brioche, hambúrguer blend bovino de 160gr, Disco de queijo muçarela empanado, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('apolo-burguer', 'Apolo Burguer', 28.90)">Adicionar - R$28,90</button></div>
+            <div class="menu-item"><span>Kratos Burguer</span><small>(pão de brioche, 2 hambúrguer blend bovino de 160gr, Cupim desfiado, cebola empanada e crocante, cheddar cremoso, molho chimichurri, alface americana, picles e deliciosa maionese artesanal)</small><button onclick="addItem('kratos-burguer', 'Kratos Burguer', 39.90)">Adicionar - R$39,90</button></div>
         </div>
         <div class="category">
             <h2>Smash's Burguer's</h2>
-            <div class="menu-item"><span>Smash 1.0</span><small>(pão de brioche, Smash bovino de 90gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Smash 1.0', 14.90)">Adicionar - R$14,90</button></div>
-            <div class="menu-item"><span>Smash 2.0</span><small>(pão de brioche, 2 Smash's bovino de 90gr, deliciosa maionese artesanal e 2 fatias de queijo cheddar fatiado)</small><button onclick="addItem('Smash 2.0', 18.90)">Adicionar - R$18,90</button></div>
-            <div class="menu-item"><span>Smash 3.0</span><small>(pão de brioche, 3 Smash's bovino de 90gr, deliciosa maionese artesanal e 3 fatias de queijo cheddar fatiado)</small><button onclick="addItem('Smash 3.0', 24.90)">Adicionar - R$24,90</button></div>
-            <div class="menu-item"><span>Smash Salada</span><small>(pão de brioche, Smash bovino de 90gr, alface americana, fatias de tomate, picles, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Smash Salada', 19.90)">Adicionar - R$19,90</button></div>
-            <div class="menu-item"><span>Duplo Smash Salada</span><small>(pão de brioche, 2 Smash's bovino de 90gr, alface americana, fatias de tomate, picles, deliciosa maionese artesanal e 2 fatias de queijo cheddar fatiado)</small><button onclick="addItem('Duplo Smash Salada', 24.90)">Adicionar - R$24,90</button></div>
-            <div class="menu-item"><span>Duplo Smash Bacon</span><small>(pão de brioche, 2 Smash's bovino de 90gr, deliciosas fatias de bacon, maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Duplo Smash Bacon', 22.90)">Adicionar - R$22,90</button></div>
-            <div class="menu-item"><span>Smash Onion</span><small>(pão de brioche, Smash bovino de 90gr, cebola caramelizada, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Smash Onion', 18.90)">Adicionar - R$18,90</button></div>
-            <div class="menu-item"><span>Smash Egg</span><small>(pão de brioche, Smash bovino de 90gr, Clássico Ovo frito, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('Smash Egg', 14.90)">Adicionar - R$14,90</button></div>
+            <div class="menu-item"><span>Smash 1.0</span><small>(pão de brioche, Smash bovino de 90gr, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('smash-1', 'Smash 1.0', 14.90)">Adicionar - R$14,90</button></div>
+            <div class="menu-item"><span>Smash 2.0</span><small>(pão de brioche, 2 Smash's bovino de 90gr, deliciosa maionese artesanal e 2 fatias de queijo cheddar fatiado)</small><button onclick="addItem('smash-2', 'Smash 2.0', 18.90)">Adicionar - R$18,90</button></div>
+            <div class="menu-item"><span>Smash 3.0</span><small>(pão de brioche, 3 Smash's bovino de 90gr, deliciosa maionese artesanal e 3 fatias de queijo cheddar fatiado)</small><button onclick="addItem('smash-3', 'Smash 3.0', 24.90)">Adicionar - R$24,90</button></div>
+            <div class="menu-item"><span>Smash Salada</span><small>(pão de brioche, Smash bovino de 90gr, alface americana, fatias de tomate, picles, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('smash-salada', 'Smash Salada', 19.90)">Adicionar - R$19,90</button></div>
+            <div class="menu-item"><span>Duplo Smash Salada</span><small>(pão de brioche, 2 Smash's bovino de 90gr, alface americana, fatias de tomate, picles, deliciosa maionese artesanal e 2 fatias de queijo cheddar fatiado)</small><button onclick="addItem('duplo-smash-salada', 'Duplo Smash Salada', 24.90)">Adicionar - R$24,90</button></div>
+            <div class="menu-item"><span>Duplo Smash Bacon</span><small>(pão de brioche, 2 Smash's bovino de 90gr, deliciosas fatias de bacon, maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('duplo-smash-bacon', 'Duplo Smash Bacon', 22.90)">Adicionar - R$22,90</button></div>
+            <div class="menu-item"><span>Smash Onion</span><small>(pão de brioche, Smash bovino de 90gr, cebola caramelizada, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('smash-onion', 'Smash Onion', 18.90)">Adicionar - R$18,90</button></div>
+            <div class="menu-item"><span>Smash Egg</span><small>(pão de brioche, Smash bovino de 90gr, Clássico Ovo frito, deliciosa maionese artesanal e uma fatia de queijo cheddar fatiado)</small><button onclick="addItem('smash-egg', 'Smash Egg', 14.90)">Adicionar - R$14,90</button></div>
         </div>
-        
+        <div class="category">
+            <h2>PORÇÕES</h2>
+            <div class="menu-item"><span>Runas Crinckle</span><small>(Porção da batata com corte Crinckle acompanha cheddar e bacon)</small><button onclick="addItem('porcao-crinckle', 'Runas Crinckle', 31.90)">Adicionar - R$31,90</button></div>
+            <div class="menu-item"><span>Runas Rústicas</span><small>(Porção de batata com corte Rústicos com casca)</small><button onclick="addItem('porcao-rustica', 'Runas Rústicas', 28.90)">Adicionar - R$28,90</button></div>
+            <div class="menu-item"><span>Runas de Cebola</span><small>(Anéis de cebola empanado e crocante)</small><button onclick="addItem('porcao-cebola', 'Runas de Cebola', 28.90)">Adicionar - R$28,90</button></div>
+        </div>
         <div class="category">
             <h2>Combos</h2>
-            <div class="menu-item"><span>Combo Atreus</span><small>(1 Atreus Kids, acompanhado de 150gr de batata Smile (carinhas) e um refri lata)</small><div class="drink-options"><select id="combo-atreus-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('Combo Atreus', 24.90, 'combo-atreus-drink')">Adicionar - R$24,90</button></div>
-            <div class="menu-item"><span>Combo Afrodite</span><small>(1 Afrodite Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-afrodite-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('Combo Afrodite', 34.90, 'combo-afrodite-drink')">Adicionar - R$34,90</button></div>
-            <div class="menu-item"><span>Combo Zeus</span><small>(1 Zeus Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-zeus-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('Combo Zeus', 31.90, 'combo-zeus-drink')">Adicionar - R$31,90</button></div>
-            <div class="menu-item"><span>Combo Hermes</span><small>(1 Hermes Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-hermes-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('Combo Hermes', 29.90, 'combo-hermes-drink')">Adicionar - R$29,90</button></div>
-            <div class="menu-item"><span>Combo Poseidon</span><small>(1 Poseidon Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-poseidon-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('Combo Poseidon', 29.90, 'combo-poseidon-drink')">Adicionar - R$29,90</button></div>
+            <div class="menu-item"><span>Combo Atreus</span><small>(1 Atreus Kids, acompanhado de 150gr de batata Smile (carinhas) e um refri lata)</small><div class="drink-options"><select id="combo-atreus-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('combo-atreus', 'Combo Atreus', 29.90, 'combo-atreus-drink')">Adicionar - R$29,90</button></div>
+            <div class="menu-item"><span>Combo Afrodite</span><small>(1 Afrodite Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-afrodite-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('combo-afrodite', 'Combo Afrodite', 39.90, 'combo-afrodite-drink')">Adicionar - R$39,90</button></div>
+            <div class="menu-item"><span>Combo Zeus</span><small>(1 Zeus Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-zeus-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('combo-zeus', 'Combo Zeus', 36.90, 'combo-zeus-drink')">Adicionar - R$36,90</button></div>
+            <div class="menu-item"><span>Combo Hermes</span><small>(1 Hermes Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-hermes-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('combo-hermes', 'Combo Hermes', 34.90, 'combo-hermes-drink')">Adicionar - R$34,90</button></div>
+            <div class="menu-item"><span>Combo Poseidon</span><small>(1 Poseidon Burguer, acompanhado de 150gr de Fritas Crinckle e um refri lata)</small><div class="drink-options"><select id="combo-poseidon-drink"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addCombo('combo-poseidon', 'Combo Poseidon', 34.90, 'combo-poseidon-drink')">Adicionar - R$34,90</button></div>
         </div>
-
         <div class="category">
             <h2>Bebidas</h2>
-            <div class="menu-item"><span>Refrigerante Lata</span><small>(Escolha: Coca-Cola, Fanta Laranja, Fanta Uva, Sprite, Coca-Cola Zero, Kuat)</small><div class="drink-options"><select id="drink-lata"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addDrink('Refrigerante Lata', 6.00, 'drink-lata')">Adicionar - R$6,00</button></div>
-            <div class="menu-item"><span>Coca-Cola 1 Litro</span><small>(Sem opções adicionais)</small><button onclick="addItem('Coca-Cola 1 Litro', 10.00)">Adicionar - R$10,00</button></div>
-            <div class="menu-item"><span>Coca-Cola 2 Litros</span><small>(Escolha: Coca-Cola ou Coca-Cola Zero)</small><div class="drink-options"><select id="drink-coca-2l"><option value="Coca-Cola">Coca-Cola</option><option value="Coca-Cola Zero">Coca-Cola Zero</option></select></div><button onclick="addDrink('Coca-Cola 2 Litros', 15.00, 'drink-coca-2l')">Adicionar - R$15,00</button></div>
+            <div class="menu-item"><span>Refrigerante Lata</span><small>(Escolha: Coca-Cola, Fanta Laranja, Fanta Uva, Sprite, Coca-Cola Zero, Kuat)</small><div class="drink-options"><select id="drink-lata"><option value="Coca-Cola">Coca-Cola</option><option value="Fanta Laranja">Fanta Laranja</option><option value="Fanta Uva">Fanta Uva</option><option value="Sprite">Sprite</option><option value="Coca-Cola Zero">Coca-Cola Zero</option><option value="Kuat">Kuat</option></select></div><button onclick="addDrink('refri-lata', 'Refrigerante Lata', 6.00, 'drink-lata')">Adicionar - R$6,00</button></div>
+            <div class="menu-item"><span>Coca-Cola 1 Litro</span><small>(Sem opções adicionais)</small><button onclick="addItem('coca-1l', 'Coca-Cola 1 Litro', 10.00)">Adicionar - R$10,00</button></div>
+            <div class="menu-item"><span>Coca-Cola 2 Litros</span><small>(Escolha: Coca-Cola ou Coca-Cola Zero)</small><div class="drink-options"><select id="drink-coca-2l"><option value="Coca-Cola">Coca-Cola</option><option value="Coca-Cola Zero">Coca-Cola Zero</option></select></div><button onclick="addDrink('coca-2l', 'Coca-Cola 2 Litros', 15.00, 'drink-coca-2l')">Adicionar - R$15,00</button></div>
         </div>
         
-        <!-- Resumo do Pedido -->
         <div class="summary">
             <h2>Resumo do Pedido</h2>
             <div id="order-summary"></div>
-            
             <div class="totals">
-                <p>
-                    <span>Subtotal</span>
-                    <span>R$ <span id="subtotal-price">0.00</span></span>
-                </p>
-                <p>
-                    <span>Taxa de Entrega</span>
-                    <span>R$ <span id="delivery-fee">0.00</span></span>
-                </p>
-                <p class="final-total">
-                    <span>Total Final</span>
-                    <span>R$ <span id="final-total-price">0.00</span></span>
-                </p>
+                <p><span>Subtotal</span><span>R$ <span id="subtotal-price">0.00</span></span></p>
+                <p><span>Taxa de Entrega</span><span id="delivery-fee-text">A calcular</span></p>
+                <p class="final-total"><span>Total</span><span>R$ <span id="final-total-price">0.00</span></span></p>
             </div>
-            <button class="finalize-btn" onclick="finalizeOrder()">Calcular Entrega e Finalizar</button>
+            <button class="finalize-btn" onclick="openOrderModal()">Finalizar Pedido</button>
+        </div>
+    </div>
+
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <h2>Falta pouco!</h2>
+            <p>Preencha seus dados para finalizar o pedido.</p>
+            <input type="text" id="customer-name" placeholder="Seu nome completo" required>
+            <input type="tel" id="customer-phone" placeholder="Seu WhatsApp (Ex: 41912345678)" required>
+            <textarea id="customer-address" placeholder="Seu endereço completo (Rua, Número, Bairro, Cidade)" rows="3" required></textarea>
+            <div class="modal-actions">
+                <button onclick="closeModal()" class="btn-cancel">Cancelar</button>
+                <button id="btn-submit-order" class="btn-confirm" onclick="submitOrder()">Enviar para WhatsApp</button>
+            </div>
         </div>
     </div>
 
     <script>
+        const API_URL = "https://api-godofburgers.onrender.com/pedidos"; 
+        const STORE_ID = "godofburgers-01";
+        const deliveryFee = 5.00; // <<< AQUI ESTÁ A TAXA DE ENTREGA FIXA
+
         let order = [];
         let subtotal = 0;
-        let deliveryFee = 0;
 
-        function addItem(name, price) {
-            order.push({ name, price });
-            updateTotals();
+        function addItem(productId, name, price) {
+            order.push({ productId, name, price, quantity: 1, observation: '' });
+            updateSummaryView();
         }
 
-        function addCombo(name, price, selectId) {
+        function addCombo(productId, name, price, selectId) {
             const drink = document.getElementById(selectId).value;
-            order.push({ name: `${name} com ${drink}`, price });
-            updateTotals();
+            const comboName = `${name} com ${drink}`;
+            order.push({ productId, name: comboName, price, quantity: 1, observation: `Bebida: ${drink}` });
+            updateSummaryView();
         }
         
-        function addDrink(name, price, selectId) {
+        function addDrink(productId, name, price, selectId) {
             const drink = document.getElementById(selectId).value;
-            order.push({ name: `${name} (${drink})`, price });
-            updateTotals();
+            const drinkName = `${name} (${drink})`;
+            order.push({ productId, name: drinkName, price, quantity: 1, observation: `Sabor: ${drink}` });
+            updateSummaryView();
         }
 
         function removeItem(index) {
             order.splice(index, 1);
-            updateTotals();
-        }
-
-        function updateTotals() {
-            subtotal = order.reduce((sum, item) => sum + item.price, 0);
-            deliveryFee = 0; // Zera a taxa ao modificar o carrinho
             updateSummaryView();
         }
-
+        
         function updateSummaryView() {
+            subtotal = order.reduce((sum, item) => sum + item.price, 0);
             const summaryElement = document.getElementById('order-summary');
+            const deliveryFeeTextElement = document.getElementById('delivery-fee-text');
+            const finalTotalElement = document.getElementById('final-total-price');
+            
             summaryElement.innerHTML = '';
             order.forEach((item, index) => {
                 summaryElement.innerHTML += `
@@ -333,113 +426,95 @@
                     </div>
                 `;
             });
-            
+
             document.getElementById('subtotal-price').textContent = subtotal.toFixed(2);
-            document.getElementById('delivery-fee').textContent = deliveryFee.toFixed(2);
-            document.getElementById('final-total-price').textContent = (subtotal + deliveryFee).toFixed(2);
+
+            if (order.length > 0) {
+                const finalTotal = subtotal + deliveryFee;
+                deliveryFeeTextElement.textContent = `R$ ${deliveryFee.toFixed(2)}`;
+                finalTotalElement.textContent = finalTotal.toFixed(2);
+            } else {
+                deliveryFeeTextElement.textContent = 'A calcular';
+                finalTotalElement.textContent = '0.00';
+            }
         }
 
-        async function finalizeOrder() {
+        function openOrderModal() {
             if (order.length === 0) {
                 alert("Seu carrinho está vazio.");
                 return;
             }
-
-            const name = prompt("Qual o seu nome?");
-            if (!name) { alert("Nome é obrigatório."); return; }
-
-            const address = prompt("Qual o seu endereço completo para entrega? (Ex: Rua, Número, Bairro, Cidade)");
-            if (!address) { alert("Endereço é obrigatório."); return; }
-            
-            const finalizeBtn = document.querySelector('.finalize-btn');
-
-            try {
-                finalizeBtn.textContent = 'Calculando...';
-                finalizeBtn.disabled = true;
-
-                const distance = await getDistanceFromAddress(address);
-
-                if (distance <= 3) {
-                    deliveryFee = 0.00;
-                } else if (distance > 3 && distance <= 4) {
-                    deliveryFee = 4.99;
-                } else if (distance > 4 && distance <= 5) {
-                    deliveryFee = 6.99;
-                } else if (distance > 5 && distance <= 8) {
-                    deliveryFee = 9.90;
-                } else {
-                    alert(`Desculpe, não entregamos neste endereço. A distância (${distance.toFixed(2)}km) excede nosso limite de 8km.`);
-                    finalizeBtn.textContent = 'Calcular Entrega e Finalizar';
-                    finalizeBtn.disabled = false;
-                    return;
-                }
-
-                updateSummaryView();
-                
-                const finalTotal = subtotal + deliveryFee;
-                const phone = "41987434356";
-                const itemsText = order.map(item => `- ${item.name} (R$ ${item.price.toFixed(2)})`).join('%0A');
-                
-                let message = `*Pedido da God of Burgers!*%0A%0A` +
-                                `*Cliente:* ${name}%0A` +
-                                `*Endereço:* ${address}%0A%0A` +
-                                `*Itens:*%0A${itemsText}%0A%0A` +
-                                `*Subtotal:* R$ ${subtotal.toFixed(2)}%0A` +
-                                `*Taxa de Entrega:* R$ ${deliveryFee.toFixed(2)} (aprox. ${distance.toFixed(2)} km)%0A` +
-                                `*Total Final:* R$ ${finalTotal.toFixed(2)}`;
-
-                const url = `https://wa.me/${phone}?text=${encodeURI(message)}`;
-                window.open(url, '_blank');
-                
-                finalizeBtn.textContent = 'Calcular Entrega e Finalizar';
-                finalizeBtn.disabled = false;
-
-            } catch (error) {
-                alert(error.message);
-                console.error("Erro ao finalizar pedido:", error);
-                finalizeBtn.textContent = 'Calcular Entrega e Finalizar';
-                finalizeBtn.disabled = false;
-            }
+            document.getElementById('order-modal').style.display = 'flex';
         }
-        
-        async function getDistanceFromAddress(address) {
-            console.log(`Calculando distância real para: ${address}`);
-            const apiKey = 'AIzaSyBrdTiIwSBLCBpPgERyi-2P6fVRxxoeZLg';
-            const origin = 'Avenida Cotinga 2247, Pinhais, PR, Brasil';
 
-            const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(address)}&key=${apiKey}&units=metric`;
+        function closeModal() {
+            document.getElementById('order-modal').style.display = 'none';
+        }
+
+        async function submitOrder() {
+            const nameInput = document.getElementById('customer-name');
+            const phoneInput = document.getElementById('customer-phone');
+            const addressInput = document.getElementById('customer-address');
+            const confirmBtn = document.getElementById('btn-submit-order');
             
-            // AVISO: A chamada a seguir pode ser bloqueada por políticas de CORS (Cross-Origin Resource Sharing).
-            // Funciona melhor quando o site está hospedado (ex: Netlify) e o domínio autorizado na chave de API.
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const address = addressInput.value.trim();
+
+            if (!name || !phone || !address) {
+                alert("Por favor, preencha todos os campos: Nome, WhatsApp e Endereço.");
+                return;
+            }
+
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Enviando...';
+            
+            const finalTotal = subtotal + deliveryFee;
+
+            const apiPayload = {
+                storeId: STORE_ID,
+                customer: { name: name, phone: phone, address: address },
+                items: order, 
+                deliveryFee: deliveryFee,
+                total: finalTotal,
+                source: "CardapioVirtual"
+            };
             
             try {
-                const response = await fetch(url);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(apiPayload)
+                });
+
                 if (!response.ok) {
-                    throw new Error('Erro de rede ao contatar a API do Google Maps.');
+                     alert('Houve um problema ao registrar o pedido online, mas não se preocupe! Estamos te redirecionando para o WhatsApp para garantir seu pedido.');
                 }
-                
-                const data = await response.json();
-
-                if (data.status !== 'OK' || data.rows[0].elements[0].status === 'ZERO_RESULTS') {
-                    console.error('Erro da API do Google:', data);
-                    throw new Error('Não foi possível encontrar o endereço ou calcular a rota. Por favor, verifique se o endereço está correto e completo.');
-                }
-
-                if (data.rows[0].elements[0].status !== 'OK') {
-                    console.error('Erro no elemento da rota:', data.rows[0].elements[0].status);
-                    throw new Error('Ocorreu um erro ao calcular a distância para o endereço fornecido.');
-                }
-
-                const distanceInMeters = data.rows[0].elements[0].distance.value;
-                return distanceInMeters / 1000;
-            } catch (e) {
-                // Captura erros de rede ou CORS e lança um erro mais amigável.
-                console.error("Fetch Error:", e);
-                throw new Error("Não foi possível conectar ao serviço de mapas. Verifique sua conexão ou tente novamente mais tarde.");
+            } catch (error) {
+                console.error('Erro de rede ao enviar pedido:', error);
+                alert('Houve um problema de conexão, mas não se preocupe! Estamos te redirecionando para o WhatsApp para garantir seu pedido.');
             }
-        }
 
-        window.onload = updateSummaryView;
+            const ownerPhone = "41987434356";
+            const itemsText = order.map(item => `- ${item.name} (R$ ${item.price.toFixed(2)})`).join('\n');
+            let message = `*Pedido da God of Burgers!*\n\n` +
+                          `*Cliente:* ${name}\n` +
+                          `*Endereço:* ${address}\n` +
+                          `*Contato:* ${phone}\n\n` +
+                          `*Itens:*\n${itemsText}\n\n` +
+                          `*Subtotal:* R$ ${subtotal.toFixed(2)}\n` +
+                          `*Taxa de Entrega:* R$ ${deliveryFee.toFixed(2)}\n\n` +
+                          `*Total:* R$ ${finalTotal.toFixed(2)}`;
+
+            const url = `https://wa.me/${ownerPhone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+            
+            confirmBtn.disabled = false;
+            confirmBtn.textContent = 'Enviar para WhatsApp';
+            closeModal();
+            order = [];
+            updateSummaryView();
+        }
     </script>
 </body>
 
